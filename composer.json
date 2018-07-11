@@ -1,0 +1,35 @@
+{
+  "name": "sy-records/oauth-login",
+  "description":"This is an extension that integrates third-party logins.",
+  "type":"library",
+  "keywords":[
+    "PHP","Qq","Github","Weibo"
+  ],
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Shen Yan",
+      "email": "52o@qq52o.cn",
+      "homepage": "https://qq52o.me",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "52o@qq52o.cn",
+    "issues": "https://github.com/sy-records/OAuthLogin/issues"
+  },
+  "require":{
+    "php":">= 5.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Auth\\": "src/"
+    }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}
