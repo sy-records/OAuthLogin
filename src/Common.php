@@ -14,20 +14,18 @@ class Common {
      * @return string           请求返回的内容
      */
     public static function getContents($url){
-        if (ini_get("allow_url_fopen") == "1") {
-            $response = file_get_contents($url);
-        }else{
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($ch, CURLOPT_URL, $url);
-            $response =  curl_exec($ch);
-            curl_close($ch);
-        }
+        $ua='Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.9';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $response =  curl_exec($ch);
+        curl_close($ch);
 
         //-------请求为空
         if(empty($response)){
-            die("50001");
+            die("请求错误");
         }
         return $response;
     }
