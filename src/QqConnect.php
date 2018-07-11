@@ -16,6 +16,7 @@ class QqConnect {
 	protected $authCodeUrl = "https://graph.qq.com/oauth2.0/authorize"; //获取code
     protected $accessTokenUrl = "https://graph.qq.com/oauth2.0/token"; //获取access token
     protected $getUserOpenIdUrl = "https://graph.qq.com/oauth2.0/me"; //获取用户openid
+    protected $userInfoUrl = "https://graph.qq.com/user/get_user_info"; //获取用户信息
 
 	public function __construct($appId, $appKey,$callBackUrl) {
 		$this->appid = $appId;
@@ -26,6 +27,10 @@ class QqConnect {
 	public function qqLogin() {
 		//-------生成唯一随机串防CSRF攻击
 		$state = md5(uniqid(rand(), TRUE));
+        //判断是否开启 自动完成session_start()
+        if (!ini_get('session.auto_start' == '1')) {
+            die('请先开启php.ini中的session.auto_start配置');
+        }
         $_SESSION["state"] = $state;
 
 		//-------构造请求参数列表
@@ -51,9 +56,8 @@ class QqConnect {
 
         //--------验证state防止CSRF攻击
         if(!$state || $_GET['state'] != $state){
-            return 30001;
+            die("stare错误");
         }
-        session_unset($_SESSION['state']);
 
         //-------请求参数列表
         $keysArr = array(
@@ -96,11 +100,20 @@ class QqConnect {
     }
 
     public function qqCallBack(){
-        $accessToken = self::getAccessToken();
-        $userOpenId = self::getUserOpenid($accessToken);
+        $accessToken = $this->getAccessToken();
+        $userOpenId = $this->getUserOpenid($accessToken);
         $objUserId = json_decode(substr($userOpenId, 9, -3));
-        $getUserInfoUrl = "https://graph.qq.com/user/get_user_info?access_token=".$accessToken."&oauth_consumer_key=".$this->appid."&openid=".$objUserId->openid;
+        //-------请求参数列表
+        $keysArr = array(
+            "access_token" => $accessToken,
+            "oauth_consumer_key" => $this->appid,
+            "openid" => $objUserId->openid
+        );
+
+        //------构造请求access_token的url
+        $getUserInfoUrl = Common::combineURL($this->userInfoUrl, $keysArr);
         $userInfo = Common::getContents($getUserInfoUrl);
+
         return $userInfo; //用户昵称nickname 头像链接 figureurl_qq_2 100*100 figureurl_qq_1 40*40
     }
 
