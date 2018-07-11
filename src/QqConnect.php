@@ -5,7 +5,9 @@
  */
 namespace Auth;
 
-class QqAuth {
+use Auth\Common;
+
+class QqConnect {
 
 	protected $appId; //申请QQ登录成功后，分配给应用的APP ID
 	protected $appKey; //申请QQ登录成功后，分配给应用的APP Key
@@ -34,7 +36,7 @@ class QqAuth {
 			"state" => $state,
             "scope" => "get_user_info", //不传则默认请求对接口get_user_info进行授权
 		);
-		$login_url = CommonAuth::combineURL($this->authCodeUrl, $keysArr);
+		$login_url = Common::combineURL($this->authCodeUrl, $keysArr);
 
 		header("Location:$login_url");
 	}
@@ -63,8 +65,8 @@ class QqAuth {
         );
 
         //------构造请求access_token的url
-        $token_url = CommonAuth::combineURL($this->accessTokenUrl, $keysArr);
-        $response = CommonAuth::getContents($token_url);
+        $token_url = Common::combineURL($this->accessTokenUrl, $keysArr);
+        $response = Common::getContents($token_url);
 
         if(strpos($response, "callback") !== false){
 
@@ -89,7 +91,7 @@ class QqAuth {
      */
     public function getUserOpenid($accessToken)
     {
-        $res = CommonAuth::getContents($this->getUserOpenIdUrl.'?access_token='.$accessToken);
+        $res = Common::getContents($this->getUserOpenIdUrl.'?access_token='.$accessToken);
         return $res;
     }
 
@@ -98,7 +100,7 @@ class QqAuth {
         $userOpenId = self::getUserOpenid($accessToken);
         $objUserId = json_decode(substr($userOpenId, 9, -3));
         $getUserInfoUrl = "https://graph.qq.com/user/get_user_info?access_token=".$accessToken."&oauth_consumer_key=".$this->appid."&openid=".$objUserId->openid;
-        $userInfo = CommonAuth::getContents($getUserInfoUrl);
+        $userInfo = Common::getContents($getUserInfoUrl);
         return $userInfo; //用户昵称nickname 头像链接 figureurl_qq_2 100*100 figureurl_qq_1 40*40
     }
 
