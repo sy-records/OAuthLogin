@@ -5,7 +5,7 @@
  */
 namespace Auth;
 
-class CommonConnect {
+class Common {
 
     /**
      * get_contents
