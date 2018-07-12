@@ -28,9 +28,9 @@ class QqConnect {
 		//-------生成唯一随机串防CSRF攻击
 		$state = md5(uniqid(rand(), TRUE));
         //判断是否开启 自动完成session_start()
-        if (!ini_get('session.auto_start' == '1')) {
-            die('请先开启php.ini中的session.auto_start配置');
-        }
+//        if (ini_get('session.auto_start' == '1')) {
+//            die('请先开启php.ini中的session.auto_start配置');
+//        }
         $_SESSION["state"] = $state;
 
 		//-------构造请求参数列表
@@ -95,19 +95,26 @@ class QqConnect {
      */
     public function getUserOpenid($accessToken)
     {
-        $res = Common::getContents($this->getUserOpenIdUrl.'?access_token='.$accessToken);
-        return $res;
+        //-------请求参数列表
+        $keysArr = array(
+            "access_token" => $accessToken,
+        );
+
+        //------构造请求access_token的url
+        $getUserInfoUrl = Common::combineURL($this->getUserOpenIdUrl, $keysArr);
+        $UserInfo = Common::getContents($getUserInfoUrl);
+        $res = json_decode(substr($UserInfo, 9, -3));
+        return $res->openid;
     }
 
     public function qqCallBack(){
         $accessToken = $this->getAccessToken();
         $userOpenId = $this->getUserOpenid($accessToken);
-        $objUserId = json_decode(substr($userOpenId, 9, -3));
         //-------请求参数列表
         $keysArr = array(
             "access_token" => $accessToken,
             "oauth_consumer_key" => $this->appid,
-            "openid" => $objUserId->openid
+            "openid" => $userOpenId
         );
 
         //------构造请求access_token的url
