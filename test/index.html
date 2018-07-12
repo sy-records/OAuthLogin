@@ -13,14 +13,26 @@
 		border: 0;
 		border-top: 1px solid #eee;
 	}
-	.qqimg { text-align: center;}
+	.img { text-align: center;}
 	.copyright{color:#666;text-align: center;margin-top: 30px;}a {color:#666;text-decoration:none;word-wrap: break-word;word-break: normal;}a:hover {text-decoration: underline;color: #03B3B2;}
 </style>
 </head>
 <body>
 <h2>这是QQ的授权登录Demo：</h2>
-<div class="qqimg">
-	<a href="" onclick='toLogin()' ><img src="./qq/Connect_logo_5.png" ></a>
+<div class="img">
+	<a href="" onclick='toQQLogin()' ><img src="./images/qq.png" ></a>
+</div>
+<br />
+<hr />
+<h2>这是Github的授权登录Demo：</h2>
+<div class="img">
+	<a href="" onclick='toGithubLogin()' ><img src="./images/github.png" ></a>
+</div>
+<br />
+<hr />
+<h2>这是微博的授权登录Demo：</h2>
+<div class="img">
+	<a href="" onclick='toWeiboLogin()' ><img src="./images/weibo.png" ></a>
 </div>
 <br />
 <hr />
@@ -31,17 +43,23 @@
 	新浪微博：<a href="https://weibo.com/5384435686" target="_blank">沈唁志</a>
 	<br />
 	<br />
-	Github：<a href="https://github.com/sy-records" target="_blank">沈唁</a>
+	Github：<a href="https://github.com/sy-records" target="_blank">sy-records</a>
 	<br />
 	<p>Copyright &copy; 沈唁志 <a href="https://qq52o.me" target="_blank">QQ52O.ME</a></p>
 </div>
 </body>
 </html>
 <script>
- function toLogin(){
+ function toQQLogin(){
    //以下为按钮点击事件的逻辑。注意这里要重新打开窗口
    //否则后面跳转到QQ登录，授权页面时会直接缩小当前浏览器的窗口，而不是打开新窗口
-   var A=window.open("./qq/index.php","TencentLogin",
+   var QQ=window.open("./qq/index.php","TencentLogin",
    "width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
- } 
+ }
+ function toGithubLogin(){
+     var Github=window.open("./github/index.php");
+ }
+ function toWeiboLogin(){
+     var Github=window.open("./weibo/index.php");
+ }
 </script>
