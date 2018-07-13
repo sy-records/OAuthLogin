@@ -3,7 +3,7 @@
   "description":"This is an extension that integrates third-party logins.",
   "type":"library",
   "keywords":[
-    "PHP","Qq","Github","Weibo"
+    "PHP","Qq","Github","Weibo","OAuthLogin2.0"
   ],
   "license": "GPL-3.0",
   "authors": [
