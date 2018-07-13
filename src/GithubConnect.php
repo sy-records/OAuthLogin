@@ -27,9 +27,9 @@ class GithubConnect
         //-------生成唯一随机串防CSRF攻击
         $state = md5(uniqid(rand(), TRUE));
         //判断是否开启 自动完成session_start()
-//        if (!ini_get('session.auto_start' == '1')) {
-//            die('请先开启php.ini中的session.auto_start配置');
-//        }
+        if (ini_get('session.auto_start') == 0) {
+            die('请先开启php.ini中的session.auto_start配置');
+        }
         $_SESSION["state"] = $state;
 
         //-------构造请求参数列表

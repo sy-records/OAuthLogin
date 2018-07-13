@@ -14,6 +14,9 @@ class Common {
      * @return string           请求返回的内容
      */
     public static function getContents($url){
+        if(!function_exists('curl_init')){
+            die('curl扩展没有开启');
+        }
         $ua='Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.9';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -21,12 +24,10 @@ class Common {
         curl_setopt($ch, CURLOPT_USERAGENT, $ua);
         curl_setopt($ch, CURLOPT_URL, $url);
         $response =  curl_exec($ch);
-        curl_close($ch);
-
-        //-------请求为空
-        if(empty($response)){
-            die("请求错误");
+        if($error=curl_error($ch)){
+            die($error);
         }
+        curl_close($ch);
         return $response;
     }
 
@@ -36,26 +37,25 @@ class Common {
      * @param $postData post数组
      * @return mixed
      */
-    public static function postContents($url,$postData=[]){
+    public static function postContents($url,$postData=array()){
+        if(!function_exists('curl_init')){
+            die('curl扩展没有开启');
+        }
         $ua='Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.9';
-        //初始化
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_USERAGENT, $ua);
         //设置post方式提交
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($postData));
         curl_setopt($curl, CURLOPT_URL, $url);
-        //执行命令
         $response = curl_exec($curl);
-        //关闭URL请求
+        if($error=curl_error($curl)){
+            die($error);
+        }
         curl_close($curl);
         //显示获得的数据
-        //-------请求为空
-        if(empty($response)){
-            die("请求错误");
-        }
         return $response;
     }
 
@@ -67,18 +67,18 @@ class Common {
      * @param array  $keysArr   参数列表数组
      * @return string           返回拼接的url
      */
-public static function combineURL($baseURL,$keysArr){
-    $combined = $baseURL."?";
-    $valueArr = array();
+    public static function combineURL($baseURL,$keysArr){
+        $combined = $baseURL."?";
+        $valueArr = array();
 
-    foreach($keysArr as $key => $val){
-        $valueArr[] = "$key=$val";
+        foreach($keysArr as $key => $val){
+            $valueArr[] = "$key=$val";
+        }
+
+        $keyStr = implode("&",$valueArr);
+        $combined .= ($keyStr);
+
+        return $combined;
     }
-
-    $keyStr = implode("&",$valueArr);
-    $combined .= ($keyStr);
-
-    return $combined;
-}
 
 }
