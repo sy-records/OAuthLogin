@@ -8,11 +8,11 @@ include_once './../../src/Common.php';
 
 use Auth\WeiboConnect;
 
-$clientId = '';
-$clientSecret = '';
-$callback = "";
+$appKey = ''; # 网站应用申请后的App Key
+$appSecret = ''; # 网站应用申请后的App Secret
+$callback = ''; # 授权回调地址
 
-$weiboAuth = new WeiboConnect($clientId,$clientSecret,$callback);
+$weiboAuth = new WeiboConnect($appKey,$appSecret,$callback);
 
 $res = $weiboAuth->weiboCallBack();
 var_dump($res);

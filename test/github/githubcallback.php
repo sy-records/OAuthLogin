@@ -10,10 +10,9 @@ use Auth\GithubConnect;
 
 $clientId = '';
 $clientSecret = '';
-$callback = "";
+$callback = '';
 
 $githubAuth = new GithubConnect($clientId,$clientSecret,$callback);
 
 $res = $githubAuth->githubCallBack();
-
 var_dump($res);
