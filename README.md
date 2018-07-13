@@ -32,7 +32,9 @@ composer require sy-records/oauth-login
 
 ### Demo截图
 
-    <img src="./test/images/demo.jpg">
+<p align="center">
+    <img src="./test/images/demo.jpg" width="500px">
+</p>
 
 ### QQ授权登录
 
@@ -102,4 +104,6 @@ All rights reserved
 
 若对您有帮助，可以赞助并支持下作者哦，谢谢！   
 
+<p align="center">
     <img src="http://wx3.sinaimg.cn/mw690/0060lm7Tly1fsv8nvbc0qj30m80hq425.jpg" >
+</p>
