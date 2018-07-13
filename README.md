@@ -33,7 +33,7 @@ composer require sy-records/oauth-login
 ### Demo截图
 
 <p align="center">
-    <img src="./test/images/demo.jpg" width="500px" height="800px">
+    <img src="./test/images/demo.jpg" >
 </p>
 
 ### QQ授权登录
